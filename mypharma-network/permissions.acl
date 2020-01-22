@@ -1,0 +1,172 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
+
+rule EverybodySeesNetwork {
+  	description: "All participant can see the network"
+    participant: "org.mypharma.druginventory.**"
+    operation: READ
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
+
+rule AuditorSeeStatus {
+  	description: "Auditor can see inventory"
+    participant: "org.mypharma.druginventory.Auditor"
+    operation: READ
+    resource: "org.mypharma.druginventory.**"
+    action: ALLOW
+}
+
+rule DistributorsSell1 {
+  	description: "Distributors can sell drugs"
+    participant: "org.mypharma.druginventory.Distributor"
+    operation: CREATE
+    resource: "org.hyperledger.composer.system.HistorianRecord"
+    action: ALLOW
+}
+rule DistributorsSell12 {
+  	description: "Distributors can sell drugs"
+    participant: "org.mypharma.druginventory.Distributor"
+    operation: CREATE
+    resource: "org.mypharma.druginventory.Sell"
+    action: ALLOW
+}
+
+rule DistributorsSell2 {
+  	description: "Distributors can sell drugs"
+    participant: "org.mypharma.druginventory.Distributor"
+    operation: READ,UPDATE
+    resource: "org.mypharma.druginventory.ifSold"
+    action: ALLOW
+}
+
+rule DistributorsSell3 {
+  	description: "Distributors can sell drugs"
+    participant: "org.mypharma.druginventory.Distributor"
+    operation: READ
+    resource: "org.mypharma.druginventory.Consignment"
+    action: ALLOW
+}
+
+rule DistributorsSell4 {
+  	description: "Distributors can sell drugs"
+    participant: "org.mypharma.druginventory.Distributor"
+    operation: READ
+    resource: "org.mypharma.druginventory.Retailer"
+    action: ALLOW
+}
+
+rule StockClerkUpdatesInventory1 {
+  	description: "Stock clerks can manage the inventory"
+    participant: "org.mypharma.druginventory.InventoryClerk"
+    operation: ALL
+    resource: "org.mypharma.druginventory.Consignment"
+    action: ALLOW
+}
+
+rule StockClerkUpdatesInventory2 {
+  	description: "Stock clerks can manage the inventory"
+    participant: "org.mypharma.druginventory.InventoryClerk"
+    operation: ALL
+    resource: "org.mypharma.druginventory.ifSold"
+    action: ALLOW
+}
+
+rule RetailersSeeStatus1 {
+  	description: "Retailers can see inventory"
+    participant: "org.mypharma.druginventory.Retailer"
+    operation: READ
+    resource: "org.mypharma.druginventory.Consignment"
+    action: ALLOW
+}
+
+rule DistributorSeeUpdatesThemselvesOnly {
+  	description: "Distributor can see and update their own record only"
+    participant(t): "org.mypharma.druginventory.Distributor"
+    operation: READ,UPDATE
+    resource(v): "org.mypharma.druginventory.Distributor"
+  	condition: (v.getIdentifier() == t.getIdentifier())
+    action: ALLOW
+}
+
+rule RetailerSeeUpdatesThemselvesOnly {
+  	description: "Retailer can see and update their own record only"
+    participant(t): "org.mypharma.druginventory.Retailer"
+    operation: READ,UPDATE
+    resource(v): "org.mypharma.druginventory.Retailer"
+  	condition: (v.getIdentifier() == t.getIdentifier())
+    action: ALLOW
+}
+
+rule AuditorSeeUpdatesThemselvesOnly {
+  	description: "Auditor can see and update their own record only"
+    participant(t): "org.mypharma.druginventory.Auditor"
+    operation: READ,UPDATE
+    resource(v): "org.mypharma.druginventory.Auditor"
+  	condition: (v.getIdentifier() == t.getIdentifier())
+    action: ALLOW
+}
+
+rule ClerkSeeUpdatesThemselvesOnly {
+  	description: "Clerk can see and update their own record only"
+    participant(t): "org.mypharma.druginventory.InventoryClerk"
+    operation: READ,UPDATE
+    resource(v): "org.mypharma.druginventory.InventoryClerk"
+  	condition: (v.getIdentifier() == t.getIdentifier())
+    action: ALLOW
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,23 @@
+/** Sample queries for Commodity Trading business network
+*/
+
+query selectCommodities {
+  description: "Select all Consignments"
+  statement:
+      SELECT org.mypharma.druginventory.Consignment
+}
+
+
+query selectCommoditiesByOwner {
+  description: "Select all consignments based on their owner"
+  statement:
+      SELECT org.mypharma.druginventory.Consignment
+          WHERE (owner == _$owner)
+}
+
+query selectCommoditiesWithHighQuantity {
+  description: "Select commodities based on quantity"
+  statement:
+      SELECT org.mypharma.druginventory.Consignment
+          WHERE (quantity > 60)
+}
