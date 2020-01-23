@@ -1,5 +1,7 @@
 namespace org.mypharma.druginventory
 
+/***Assets*/
+
 asset Consignment identified by consigId {
 	  o String consigId
     o String drugName
@@ -8,32 +10,48 @@ asset Consignment identified by consigId {
     o Double price
     --> Trader owner
 }
-participant Trader identified by tradeId {
-    o String tradeId
-    o String firstName
-    o String lastName
-}
-transaction Trade {
-    --> Consignment consignment
-    --> Trader newOwner
-}
- 
 asset ifSold identified by consigID {
   	o String consigID
     o Boolean soldOrNot
     --> Retailer buyer optional
 
 }
+asset ifSold2 identified by retailerId{
+  	o String retailerId
+    o Boolean soldOrNot
+    --> InventoryClerk buyer1 optional
 
+}
+asset ifSold3 identified by clerkId{
+  	o String clerkId
+    o Boolean soldOrNot
+    --> Distributor buyer2 optional
+
+}
+asset ifSold4 identified by distributorId{
+  	o String distributorId
+    o Boolean soldOrNot
+    --> Auditor buyer3 optional
+
+}
+
+
+
+/*** Particpant */
+participant Trader identified by tradeId {
+    o String tradeId
+    o String firstName
+    o String lastName
+}
 participant Distributor identified by distributorId{
-	  o String distributorId
+	o String distributorId
     o String name
     o String address
 
 }
 
 participant Retailer identified by retailerId{
-	  o String retailerId
+	o String retailerId
     o String name
     o String address
   
@@ -46,15 +64,41 @@ participant InventoryClerk identified by clerkId {
 }
 
 participant Auditor identified by auditorId{
-	  o String auditorId
+	o String auditorId
     o String name
 }
 
-transaction Sell {
-	  --> Retailer buyer
+
+/****** Transactions */
+
+transaction Trade {
+    --> Consignment consignment
+    --> Trader newOwner
+}
+ 
+transaction SellToRetailer {
+	--> Retailer buyer
     --> ifSold status
     
 }
+transaction SellToClerk {
+	--> InventoryClerk buyer1
+    --> ifSold2 status
+    
+}
+transaction SellToDistributor {
+	--> Distributor buyer2
+    --> ifSold3 status
+    
+}
+transaction SellToAuditor {
+	--> Auditor buyer3
+    --> ifSold4 status
+    
+}
+
+
+/*** Events */
 
 event TradeNotification {
     --> Consignment consignment

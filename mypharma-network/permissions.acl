@@ -55,7 +55,7 @@ rule DistributorsSell12 {
   	description: "Distributors can sell drugs"
     participant: "org.mypharma.druginventory.Distributor"
     operation: CREATE
-    resource: "org.mypharma.druginventory.Sell"
+    resource: "org.mypharma.druginventory.SellToRetailer"
     action: ALLOW
 }
 

@@ -1,5 +1,5 @@
 /**
- * @param {org.mypharma.druginventory.Sell} Sell
+ * @param {org.mypharma.druginventory.SellToRetailer} SellToRetailer
  * @transaction
  */
 
@@ -65,3 +65,53 @@ function shipConsig(tx) {
         let assetRegistry = await getAssetRegistry('org.mypharma.druginventory.Consignment');
         await assetRegistry.update(trade.consignment);
     }
+
+/**
+ * @param {org.mypharma.druginventory.SellToClerk} SellToClerk
+ * @transaction
+ */
+
+function shipClerk(tx1) {
+    if(!tx1.status.soldOrNot) {
+      tx1.status.soldOrNot = true;
+      tx1.status.buyer1 = tx1.buyer1;
+  
+      return getAssetRegistry('org.mypharma.druginventory.ifSold2') 
+          .then(function (assetRegistry) {
+                return assetRegistry.update(tx1.status);
+              });
+        }
+  }
+/**
+ * @param {org.mypharma.druginventory.SellToDistributor} SellToDistributor
+ * @transaction
+ */
+
+function shipDistributor(tx1) {
+    if(!tx1.status.soldOrNot) {
+      tx1.status.soldOrNot = true;
+      tx1.status.buyer2 = tx1.buyer2;
+  
+      return getAssetRegistry('org.mypharma.druginventory.ifSold3') 
+          .then(function (assetRegistry) {
+                return assetRegistry.update(tx1.status);
+              });
+        }
+  }
+
+/**
+ * @param {org.mypharma.druginventory.SellToAuditor} SellToAuditor
+ * @transaction
+ */
+
+function shipAuditor(tx1) {
+    if(!tx1.status.soldOrNot) {
+      tx1.status.soldOrNot = true;
+      tx1.status.buyer3 = tx1.buyer3;
+  
+      return getAssetRegistry('org.mypharma.druginventory.ifSold4') 
+          .then(function (assetRegistry) {
+                return assetRegistry.update(tx1.status);
+              });
+        }
+  }
