@@ -44,14 +44,14 @@ participant Trader identified by tradeId {
     o String lastName
 }
 participant Distributor identified by distributorId{
-	o String distributorId
+	  o String distributorId
     o String name
     o String address
 
 }
 
 participant Retailer identified by retailerId{
-	o String retailerId
+	  o String retailerId
     o String name
     o String address
   
@@ -77,22 +77,22 @@ transaction Trade {
 }
  
 transaction SellToRetailer {
-	--> Retailer buyer
+	  --> Retailer buyer
     --> ifSold status
     
 }
 transaction SellToClerk {
-	--> InventoryClerk buyer1
+	  --> InventoryClerk buyer1
     --> ifSold2 status
     
 }
 transaction SellToDistributor {
-	--> Distributor buyer2
+	  --> Distributor buyer2
     --> ifSold3 status
     
 }
 transaction SellToAuditor {
-	--> Auditor buyer3
+	  --> Auditor buyer3
     --> ifSold4 status
     
 }
